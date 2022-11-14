@@ -70,6 +70,13 @@ export default function PostPage({ post }) {
     }
   }, [session])
 
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(`/api/code/${id}`)
+      setTotalLikes(data.post.totalLikes)
+    })();
+  }, [])
+
   return (
     <div className="pt-8 pb-10 lg:pt-12 lg:pb-14 mx-auto max-w-7xl px-2">
       <SiteNavigation />
