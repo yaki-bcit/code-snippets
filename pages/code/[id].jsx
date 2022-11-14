@@ -61,6 +61,7 @@ export default function PostPage({ post }) {
     (async () => {
       const { data } = await axios.get(`/api/code/${id}/comment`)
       setComments(data.comments)
+      setTotalComments(data.comments.length)
     })();
   }, [])
 
@@ -74,8 +75,6 @@ export default function PostPage({ post }) {
     (async () => {
       const { data } = await axios.get(`/api/code/${id}`)
       setTotalLikes(data.post.totalLikes)
-      setLiked(data.post.liked)
-      setTotalComments(data.post.totalComments)
     })();
   }, [])
 

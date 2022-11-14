@@ -12,7 +12,8 @@ export default async function handler(req, res) {
         },
         include: {
           user: true,
-          comments: true
+          comments: true,
+          likes: true,
         },
       })
 
