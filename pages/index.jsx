@@ -42,6 +42,10 @@ export default function Home() {
     }
   }
 
+  const handleShare = async (code) => {
+    await navigator.clipboard.writeText(code)
+  }
+
   const handleComment = async (comment, post) => {
     if (!session) {
       router.push('/api/auth/signin')
@@ -93,7 +97,7 @@ export default function Home() {
                 className='mv-10'
                 onLike={handleLike}
                 onComment={handleComment}
-                onShare={() => console.log('share: ' + post.id)}
+                onShare={handleShare}
               />
             </li>
           ))}
@@ -102,22 +106,3 @@ export default function Home() {
     </div>
   )
 }
-
-/* export async function getServerSideProps() {
-  const posts = await prisma.post.findMany({
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      user: true,
-      likes: true,
-      comments: true,
-    },
-  })
-
-  return {
-    props: {
-      posts: JSON.parse(JSON.stringify(posts)),
-    },
-  }
-} */

@@ -64,7 +64,6 @@ export default function PostPage({ post }) {
     })();
   }, [])
 
-  // set liked to true if the user has liked the post
   useEffect(() => {
     if (session) {
       setLiked(post.likes.some(like => like.email === session.user.email))

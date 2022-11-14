@@ -21,9 +21,9 @@ export default function PostSmall({ onLike, onComment, onShare, href, post, user
   const [showCommentForm, setShowCommentForm] = useState(false)
   const [shared, setShared] = useState(false)
 
-  const handleShare = async (code) => {
+  const handleShare = async () => {
     setShared(false)
-    await navigator.clipboard.writeText(code)
+    onShare(post.code)
     setShared(true)
   }
   
@@ -82,7 +82,7 @@ export default function PostSmall({ onLike, onComment, onShare, href, post, user
         </Link>
       </div>
       <div className="flex flex-col items-center pb-3">
-        <PostActions onComment={handleComment} onLike={onLike} onShare={handleShare} liked={post.liked} totalComments={post.totalComments} totalLikes={post.totalLikes} post={post} />
+        <PostActions onComment={handleComment} onLike={onLike} onShare={handleShare} liked={post.liked} totalComments={post.totalComments} totalLikes={post.totalLikes} shared={shared} post={post} />
       </div>
 
       {showCommentForm && <CommentForm post={post} onSubmit={handleSubmitComment} user={session.user} />}
