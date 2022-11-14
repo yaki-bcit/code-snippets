@@ -59,7 +59,12 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const { data } = await axios.get('/api/code')
-      setPostList(data.posts)
+      setPostList(data.posts.map((post) => {
+        return {
+          ...post,
+          liked: post.likes.some((like) => like.email === session?.user.email),
+        }
+      }))
     })();
   }, [])
 
