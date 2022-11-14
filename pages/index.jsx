@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+/* import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient() */
 
 import PostSmall from '../components/PostSmall'
 import SiteNavigation from "../components/SiteNavigation"
@@ -10,11 +10,11 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 import axios from 'axios'
 
-export default function Home({ posts }) {
+export default function Home() {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const [postList, setPostList] = useState(posts)
+  const [postList, setPostList] = useState([])
 
   const handleLike = async (post) => {
     if (!session) {
@@ -53,8 +53,15 @@ export default function Home({ posts }) {
 
   // update postList when the session changes
   useEffect(() => {
+    (async () => {
+      const { data } = await axios.get('/api/code')
+      setPostList(data.posts)
+    })();
+  }, [])
+
+  useEffect(() => {
     setPostList(
-      posts.map((post) => {
+      postList.map((post) => {
         return {
           ...post,
           liked: post.likes.some((like) => like.email === session?.user.email),
@@ -73,7 +80,11 @@ export default function Home({ posts }) {
         </h1>
 
         <ul className='mt-4'>
-          {postList.map((post) => (
+          {!postList.length && (
+            <span>Loading...</span>
+          )}
+
+          {postList.length > 0 && postList.map((post) => (
             <li key={post.id}>
               <PostSmall 
                 post={post} 
@@ -92,7 +103,7 @@ export default function Home({ posts }) {
   )
 }
 
-export async function getServerSideProps() {
+/* export async function getServerSideProps() {
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: 'desc',
@@ -109,4 +120,4 @@ export async function getServerSideProps() {
       posts: JSON.parse(JSON.stringify(posts)),
     },
   }
-}
+} */

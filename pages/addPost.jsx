@@ -24,13 +24,15 @@ export default function AddPost() {
     return (
       <div className="pt-8 pb-10 lg:pt-12 lg:pb-14 mx-auto max-w-7xl px-2">
         <SiteNavigation />
-        <h1 className='text-xl text-center mt-8'>
-          Add a new post
-        </h1>
-        <NewPostForm 
-          onSubmit={handleSubmit}
-          onChange={(data) => console.log(data)}
-        />
+        <div className='max-w-2xl mx-auto'>
+          <h1 className='text-xl text-center mt-8'>
+            Add a new post
+          </h1>
+          <NewPostForm 
+            onSubmit={handleSubmit}
+            onChange={(data) => console.log(data)}
+          />
+        </div>
       </div>
     );
   }

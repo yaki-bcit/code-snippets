@@ -19,6 +19,11 @@ export default async function handler(req, res) {
         },
         include: {
           user: true,
+          likes: true,
+          comments: true
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       })
 

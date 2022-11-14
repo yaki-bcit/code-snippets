@@ -16,8 +16,6 @@ export default function ProfilePage({ posts, comments }) {
   const { data: session } = useSession()
   const [postList, setPostList] = useState(posts)
 
-  console.log('posts', posts)
-
   const handleLike = async (post) => {
     if (!session) {
       router.push('/api/auth/signin')
