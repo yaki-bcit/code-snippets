@@ -7,7 +7,10 @@ import highlight from "../../utils/highlight"
 
 import { twMerge } from "tailwind-merge"
 
-export default function Post({ onComment, onLike, onShare, liked, post, user, className = "" }) {
+export default function Post({ onComment, onLike, onShare, liked, shared, totalLikes, totalComments, post, user, className = "" }) {
+  function handleShare() {
+    onShare(post.code)
+  }
 
   return (
     <>
@@ -55,9 +58,10 @@ export default function Post({ onComment, onLike, onShare, liked, post, user, cl
           className="mt-6 mb-3"
           onComment={onComment}
           onLike={onLike}
-          onShare={onShare}
+          onShare={handleShare}
           liked={liked}
-          totalComments={post.totalComments}
+          shared={shared}
+          totalComments={totalComments}
           totalLikes={post.totalLikes} />
       </div>
     </>

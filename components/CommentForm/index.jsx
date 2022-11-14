@@ -1,12 +1,18 @@
 import { useState } from "react"
+import { useRouter } from "next/router"
 import Image from "next/image"
 import Button from "../Button"
 export default function NewPostForm({ onSubmit, user, className = "", textareaRef }) {
+  const router = useRouter()
   const [comment, setComment] = useState('')
 
-  const handleSubmit = (e) => {
+  function handleChange(e) {
+    setComment(e.target.value)
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    onSubmit({ comment })
+    await onSubmit({ comment })
   }
 
   return (
@@ -30,7 +36,7 @@ export default function NewPostForm({ onSubmit, user, className = "", textareaRe
             <textarea
               ref={textareaRef}
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={handleChange}
               id="comment"
               name="comment"
               type="text"

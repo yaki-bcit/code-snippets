@@ -4,7 +4,13 @@ import SimpleCodeEditor from "../../components/SimpleCodeEditor"
 import Button from "../Button"
 import LanguageDropdown from "../LanguageDropdown"
 
-export default function NewPostForm({ defaultLanguage = "markdown", defaultCode = "", onSubmit, onChange, className = "" }) {
+export default function NewPostForm({ 
+  defaultLanguage = "markdown", 
+  defaultCode = "", 
+  onSubmit, 
+  onChange, 
+  className = "pt-8 pb-10 lg:pt-12 lg:pb-14 mx-auto max-w-7xl px-2",
+}) {
   const [code, setCode] = useState(defaultCode)
   const [language, setLanguage] = useState(defaultLanguage)
 

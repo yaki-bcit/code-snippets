@@ -1,6 +1,6 @@
 import hljs from 'highlight.js'
-import markdown from 'highlight.js/lib/languages/markdown';
-hljs.registerLanguage('markdown', markdown);
+import markdown from 'highlight.js/lib/languages/markdown'
+hljs.registerLanguage('markdown', markdown)
 
 export default function highlight(code, language) {
   const languageObject = language && { language }
@@ -11,7 +11,8 @@ export default function highlight(code, language) {
     function replacer(match, p1, p2, p3, offset, string) {
       blocks.push("```" + p2 + "" + hljs.highlight(p3, { language: p2 }).value + "```")
     }
-    const regex = /(```(.+?)(?=[\n\r\s])([.\n\r\s\S]*?)(?=`)```)/g
+    // Replace all code blocks with placeholders
+    const regex = /(```(.+?)(?=[\n\r\s])([.\n\r\s\S]*?)(?=`)```)/g 
     code.replace(regex, replacer)
     highlighted = highlighted.replace(regex, () => blocks.shift())
     return highlighted

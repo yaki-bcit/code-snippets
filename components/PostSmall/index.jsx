@@ -1,7 +1,13 @@
 import NextLink from "next/link"
 import NextImage from "next/image"
+import { useState } from "react"
+import { useRouter  } from 'next/router'
+import { useSession, signIn, signOut } from "next-auth/react"
+
+import axios from 'axios'
 
 import PostActions from "../PostActions"
+import CommentForm from "../CommentForm"
 
 import formatTimeAgo from "../../utils/formatTimeAgo"
 import highlight from "../../utils/highlight"
@@ -9,6 +15,29 @@ import highlight from "../../utils/highlight"
 import { twMerge } from "tailwind-merge"
 
 export default function PostSmall({ onLike, onComment, onShare, href, post, user, Image = NextImage, Link = NextLink, className = "" }) {
+  const { data: session } = useSession()
+  const router = useRouter()
+  
+  const [showCommentForm, setShowCommentForm] = useState(false)
+  const [shared, setShared] = useState(false)
+
+  const handleShare = async (code) => {
+    setShared(false)
+    await navigator.clipboard.writeText(code)
+    setShared(true)
+  }
+  
+  const handleComment = async () => {
+    if (!session) {
+      router.push('/api/auth/signin')
+    }
+    setShowCommentForm(!showCommentForm)
+  }
+
+  const handleSubmitComment = async (comment) => {
+    setShowCommentForm(false)
+    onComment(comment, post)
+  }
 
   return (
     <div className={twMerge('lex flex-col overflow-hidden rounded-lg shadow-lg', className)}>
@@ -40,7 +69,6 @@ export default function PostSmall({ onLike, onComment, onShare, href, post, user
                   <p className="text-xl font-semibold text-gray-100">
                     {post.title.substring(0, 50)}
                   </p>
-
                 </div>
               </div>
             </div>
@@ -54,9 +82,10 @@ export default function PostSmall({ onLike, onComment, onShare, href, post, user
         </Link>
       </div>
       <div className="flex flex-col items-center pb-3">
-        <PostActions onComment={onComment} onLike={onLike} onShare={onShare} liked={post.liked} totalComments={post.totalComments} totalLikes={post.totalLikes} />
+        <PostActions onComment={handleComment} onLike={onLike} onShare={handleShare} liked={post.liked} totalComments={post.totalComments} totalLikes={post.totalLikes} post={post} />
       </div>
 
+      {showCommentForm && <CommentForm post={post} onSubmit={handleSubmitComment} user={session.user} />}
     </div>
   )
 }

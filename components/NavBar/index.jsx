@@ -49,13 +49,18 @@ export default function NavBar(props) {
                         href={link.href}
 
                         className={link.current ?
-                          "rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white" :
-                          "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                          "rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white flex flex-row" :
+                          "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex flex-row"
                         }
                       >
                         <div>
-                         {!!link.Icon ? <link.Icon className="block h-6 w-6" /> : link.name}
-                         </div>
+                          {!!link.Icon ? <link.Icon className="block h-6 w-6" /> : link.name}
+                        </div>
+                        {link.label && 
+                          <div className='px-2'>
+                            {link.label}
+                          </div>
+                        }
                       </Link>
                     ))}
                   </div>
@@ -185,6 +190,11 @@ export default function NavBar(props) {
                   }
                 >
                   {!!link.Icon ? <link.Icon className="block h-6 w-6" /> : link.name}
+                  {link.label && 
+                    <div className='px-2'>
+                      {link.label}
+                    </div>
+                  }
                 </Disclosure.Button>
               ))}
             </div>
