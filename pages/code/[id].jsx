@@ -27,11 +27,11 @@ export default function PostPage({ post }) {
 
   const handleLike = async () => {
     if (liked) {
-      //await axios.delete(`/api/code/${id}/like`)
+      await axios.delete(`/api/code/${id}/like`)
       setTotalLikes(totalLikes - 1)
       setLiked(false)
     } else {
-      //await axios.post(`/api/code/${id}/like`)
+      await axios.post(`/api/code/${id}/like`)
       setTotalLikes(totalLikes + 1)
       setLiked(true)
     }
