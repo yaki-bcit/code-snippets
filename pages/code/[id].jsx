@@ -14,6 +14,7 @@ import CommentForm from '../../components/CommentForm'
 
 export default function PostPage({ post }) {
   const [comments, setComments] = useState([])
+  const [likes, setLikes] = useState([])
   const [liked, setLiked] = useState(false)
   const [totalLikes, setTotalLikes] = useState(post.totalLikes)
   const [totalComments, setTotalComments] = useState(post.totalComments)
@@ -66,17 +67,24 @@ export default function PostPage({ post }) {
   }, [])
 
   useEffect(() => {
-    if (session) {
-      setLiked(post.likes.some(like => like.email === session.user.email))
-    }
-  }, [session])
+    (async () => {
+      const { data } = await axios.get(`/api/code/${id}`)
+      setLikes(data.post.likes)
+      setTotalLikes(data.post.likes.length)
+      if (session) {
+        setLiked(data.post.likes.some(like => like.email === session.user.email))
+      }
+    })();
+  }, [])
 
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/api/code/${id}`)
-      setTotalLikes(data.post.totalLikes)
+      if (session) {
+        setLiked(data.post.likes.some(like => like.email === session.user.email))
+      }
     })();
-  }, [])
+  }, [session])
 
   return (
     <div className="pt-8 pb-10 lg:pt-12 lg:pb-14 mx-auto max-w-7xl px-2">
@@ -126,8 +134,6 @@ export async function getStaticProps(context) {
     },
     include: {
       user: true,
-      comments: true,
-      likes: true,
     },
   })
 
