@@ -58,10 +58,10 @@ export default async function handler(req, res) {
       })
 
       // delete the like
-      await prisma.like.delete({
+      await prisma.like.deleteMany({
         where: {
-          postId: parseInt(req.query.id),
           userId: prismaUser.id,
+          postId: parseInt(req.query.id),
         }
       })
 

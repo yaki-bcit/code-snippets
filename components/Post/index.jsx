@@ -62,7 +62,7 @@ export default function Post({ onComment, onLike, onShare, liked, shared, totalL
           liked={liked}
           shared={shared}
           totalComments={totalComments}
-          totalLikes={post.totalLikes} />
+          totalLikes={totalLikes} />
       </div>
     </>
   )
